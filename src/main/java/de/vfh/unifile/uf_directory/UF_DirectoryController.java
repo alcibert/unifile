@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.vfh.unifile.uf_content.UF_Content;
+
 /***
  * Hier sollen nur die API Endpoints aufgelistet sein.
  * Alle Aufrufe gehen an den Service Layer
@@ -23,7 +25,7 @@ public class UF_DirectoryController {
     }
     
     @GetMapping
-    public List<UF_Directory> getDirectorys(){
+    public List<UF_Content> getDirectorys(){
         return dirService.getDirectorys();
     }
 

@@ -1,6 +1,25 @@
 package de.vfh.unifile.uf_content;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Table
 public class UF_Content {
+    @Id
+    @SequenceGenerator(
+        name = "uf_content_sequence",
+        sequenceName = "uf_content_sequence",
+        allocationSize = 1
+    )
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "uf_content_sequence"
+    )
     protected Long id;
     protected String name;
     protected Long size;
@@ -14,7 +33,9 @@ public class UF_Content {
         this.relativePath = relativePath;
     }
 
-    public UF_Content(){}
+    public UF_Content(
+
+    ){}
 
     public UF_Content(String name, String relativePath) {
         this.name = name;

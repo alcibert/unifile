@@ -11,6 +11,7 @@ import de.vfh.unifile.uf_file.UF_File;
  * Struktur und Funktionen der Objekte landen hier
  */
 public class UF_Directory extends UF_Content{
+   
     private List<UF_Content> content = new ArrayList<UF_Content>();
 
     public UF_Directory(){}
@@ -67,5 +68,6 @@ public class UF_Directory extends UF_Content{
     public List<UF_Content> getContent() {
         return content;
     }
+    
 }
 
