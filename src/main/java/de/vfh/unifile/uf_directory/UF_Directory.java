@@ -37,6 +37,10 @@ public class UF_Directory extends UF_Content{
     }
 
     public void scanContents(){
+        scanContents(true);
+    }
+
+    public void scanContents(Boolean fullDepthScan){
         File origin = new File(this.relativePath);
         File[] children = origin.listFiles();
         
@@ -48,7 +52,11 @@ public class UF_Directory extends UF_Content{
                     child.lastModified(),
                     child.getPath()
                 );
-                newDir.scanContents();
+                newDir.setAbsolutePath(origin.getAbsolutePath());
+                newDir.setDirectory(true);
+                if (fullDepthScan) {
+                    newDir.scanContents();
+                }
                 this.content.add(newDir);
             }
             if(child.isFile()){
@@ -59,6 +67,8 @@ public class UF_Directory extends UF_Content{
                     child.getPath(),
                     child.hashCode()
                 );
+                newFile.setAbsolutePath(origin.getAbsolutePath());
+                newFile.setDirectory(false);
                 this.content.add(newFile);
             }
         }
@@ -67,6 +77,10 @@ public class UF_Directory extends UF_Content{
 
     public List<UF_Content> getContent() {
         return content;
+    }
+
+    public void addToContent(UF_Content toAdd){
+        this.content.add(toAdd);
     }
     
 }

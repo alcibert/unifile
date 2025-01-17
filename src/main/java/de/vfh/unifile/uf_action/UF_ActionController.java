@@ -2,6 +2,7 @@ package de.vfh.unifile.uf_action;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +20,10 @@ public class UF_ActionController {
         this.actionService = actionService;
     }
 
-    @RequestMapping(path = "scan")
+    @RequestMapping(path = "scan/{volume}")
     @GetMapping
-    public UF_Directory scan(@RequestParam("path") String path) throws IOException{
-        return actionService.scanPath(path);
+    public UF_Directory scan(@PathVariable String volume, @RequestParam("path") String path) throws IOException{
+        return actionService.scanPath(volume, path);
     }
 
 }

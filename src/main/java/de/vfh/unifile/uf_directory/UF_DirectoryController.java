@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.vfh.unifile.uf_content.UF_Content;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 /***
  * Hier sollen nur die API Endpoints aufgelistet sein.
@@ -34,5 +36,12 @@ public class UF_DirectoryController {
     public String doTest(){
         return "Super Sache";
     }
+
+    @RequestMapping(path = "explore")
+    @GetMapping
+    public UF_Content explore(@RequestParam("cwd") String cwd) {
+        return dirService.explore(cwd);
+    }
+    
 
 }

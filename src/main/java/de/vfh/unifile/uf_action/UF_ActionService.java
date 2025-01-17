@@ -9,7 +9,8 @@ import de.vfh.unifile.uf_directory.UF_Directory;
 
 @Service
 public class UF_ActionService {
-    public UF_Directory scanPath(String path) throws IOException{
+    public UF_Directory scanPath(String volume, String path) throws IOException{
+        //ToDo: verschiedene Volumes in Datenbank schreiben
         File origin = new File(path);
         if(!origin.isDirectory()){
             //throw new Error

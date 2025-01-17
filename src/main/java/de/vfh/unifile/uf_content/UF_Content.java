@@ -25,6 +25,8 @@ public class UF_Content {
     protected Long size;
     protected Long lastModified;
     protected String relativePath;
+    protected String absolutePath;
+    protected Boolean isDirectory;
 
     public UF_Content(String name, Long size, Long lastModified, String relativePath) {
         this.name = name;
@@ -71,6 +73,14 @@ public class UF_Content {
         return relativePath;
     }
 
+    public Boolean getIsDirectory() {
+        return isDirectory;
+    }
+
+    public void setDirectory(Boolean isDirectory) {
+        this.isDirectory = isDirectory;
+    }
+
     @Override
     public String toString() {
         return "[id=" + id + ", name=" + name + ", size=" + size + ", lastModified=" + lastModified
@@ -89,6 +99,14 @@ public class UF_Content {
         boolean sameModTime = this.lastModified.equals(content.getLastModified());
         
         return samePath && sameName && sameSize && sameModTime;
+    }
+
+    public String getAbsolutePath() {
+        return absolutePath;
+    }
+
+    public void setAbsolutePath(String absolutePath) {
+        this.absolutePath = absolutePath;
     }
 }
 

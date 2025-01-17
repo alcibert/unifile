@@ -1,0 +1,230 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin:0;
+}
+
+:root{
+    --almostBlack:hsl(0, 0%, 3%);
+    --darkgray:hsl(0, 0%, 10%);
+    --darkgray-focus: hsl(0, 0%, 15%);
+    --lightgray:hsl(0, 0%, 20%);
+    --intenseRed:hsl(0, 100%, 29%);
+    --light:hsl(0, 0%, 40%);
+    font-size: 16px;
+}
+
+.filebrowser{
+    border: 1px solid var(--darkgray);
+    min-height: 200px;
+    height:600px;
+    min-width: 400px;
+    width: 1000px;
+    position:relative;
+    background-color: var(--lightgray);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    resize: both;
+}
+
+.titlebar{
+    --height:30px;
+    width:100%;
+    background-color: var(--almostBlack);
+    color:var(--light);
+    height: var(--height);
+    display:flex;
+    align-items: center;
+    user-select: none;
+}
+
+.favicon{
+    width:var(--height);
+    height:var(--height);
+    padding:calc(var(--height) / 5);
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.view{
+    height:var(--height);
+    padding:0 1em;
+    line-height: var(--height);
+    transition:
+        background-color 150ms ease,
+        color 150ms ease
+    ;
+    position:relative;
+    cursor: pointer;
+}
+.view:hover,
+.view:focus{
+    background-color: var(--light);
+    color:white;
+}
+.view::after{
+    content:"";
+    display: block;
+    height:calc(var(--height) * 0.4);
+    width:1px;
+    /* background-color: var(--lightgray); */
+    outline:1px solid var(--light);
+    border-radius: 10%;
+    position:absolute;
+    left:1px;
+    top:calc(var(--height) * 0.3);
+}
+
+.title{
+    height:var(--height);
+    padding:0 1em;
+    line-height: var(--height);
+}
+
+.close{
+    height:var(--height);
+    padding:0 1.5em;
+    line-height: var(--height);
+    margin-left:auto;
+    font-size: 0.8em;
+    transition:
+        background-color 150ms ease,
+        color 150ms ease
+    ;
+    cursor: pointer;
+}
+.close:hover,
+.close:focus{
+    background-color: var(--intenseRed);
+    color:white;
+}
+
+.navBar{
+    --height:40px;
+    width:100%;
+    height:var(--height);
+    display:flex;
+    align-items: center;
+    background-color: var(--darkgray-focus);
+    color:white;
+}
+.back, .up{
+    width:1em;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    line-height: var(--height);
+    color:var(--light);
+    cursor: pointer;
+}
+.back:hover,
+.up:hover{
+    background-color:var(--darkgray);
+    color:white;
+}
+
+.pathBar{
+    --height:30px;
+    outline:1px solid var(--light);
+    padding:0 0.5em 0 0;
+    height:var(--height);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    width:100%;
+    margin-right: 1em;
+}
+.pathObj{
+    margin:0 0 0 1em;
+    padding:0 0.5em;
+    display: block;
+    position:relative;
+    line-height: var(--height);
+    cursor: pointer;
+    white-space: nowrap;
+}
+.pathObj::before{
+    content:'\003E';
+    position: absolute;
+    left:-0.8em;
+    color:var(--light);
+}
+.pathObj:hover{
+    background-color: var(--almostBlack);
+}
+
+.searchBar{
+    --height:30px;
+    outline:1px solid var(--light);
+    padding:0 0.1em;
+    height:var(--height);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+    background-color: inherit;
+}
+.searchIcon{
+    filter:saturate(0);
+}
+#searchInput{
+    background-color: inherit;
+    border:none;
+    height:var(--height);
+    min-width: 30ch;
+    color:white;
+}
+#searchInput::placeholder{
+    color:var(--light);
+}
+
+.contentScroll{
+    overflow-y: scroll;
+}
+.folderContent{
+    display: table;
+    width:100%;
+    padding:0.2em 0.5em;
+    color:white;
+    background-color: var(--lightgray);
+}
+.header{
+    display:table-header-group;
+    color:var(--light);
+    position: sticky;
+    top:0;
+    background-color: inherit;
+}
+.header span {
+    display:table-cell;
+    border-right: 1px solid var(--light);
+    padding:0 0 0 .2em;
+}
+
+.contentRow{
+    display:table-row;
+    font-size: 0.9em;
+    height:1.8em;
+    cursor: pointer;
+}
+.contentRow:hover{
+    background-color: var(--light);
+}
+.contentRow span{
+    display:table-cell;
+    vertical-align: middle;
+    padding: 0 0 0 .2em;
+}
+
+::-webkit-scrollbar{
+    background: var(--lightgray);
+    width:10px;
+}
+::-webkit-scrollbar-thumb{
+    background: var(--light);
+}
