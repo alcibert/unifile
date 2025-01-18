@@ -1,6 +1,7 @@
 package de.vfh.unifile.uf_directory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class UF_DirectoryService {
             }
             return newDir;
         }
-
+        // ToDo: Refactoring -> nur einmal die erstellen Routine hinterlegen
         File origin = new File(cwd);
         Boolean isDirectory = origin.isDirectory();
         UF_Directory newDir = new UF_Directory(
@@ -53,6 +54,22 @@ public class UF_DirectoryService {
         newDir.setAbsolutePath(origin.getAbsolutePath());
         newDir.setDirectory(isDirectory);
         newDir.scanContents(false);
+        return newDir;
+    }
+
+    public UF_Directory scanPath(String volume, String path) throws IOException{
+        //ToDo: verschiedene Volumes in Datenbank schreiben
+        File origin = new File(path);
+        UF_Directory newDir = new UF_Directory(
+            origin.getName(),
+            0L,
+            origin.lastModified(),
+            origin.getPath()
+        );
+        newDir.setVolume(volume);
+        newDir.setAbsolutePath(origin.getAbsolutePath());
+        newDir.setDirectory(origin.isDirectory());
+        newDir.scanContents(true);
         return newDir;
     }
 }

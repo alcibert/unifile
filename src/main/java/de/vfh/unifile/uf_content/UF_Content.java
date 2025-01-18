@@ -27,6 +27,7 @@ public class UF_Content {
     protected String relativePath;
     protected String absolutePath;
     protected Boolean isDirectory;
+    protected String volume;
 
     public UF_Content(String name, Long size, Long lastModified, String relativePath) {
         this.name = name;
@@ -107,6 +108,14 @@ public class UF_Content {
 
     public void setAbsolutePath(String absolutePath) {
         this.absolutePath = absolutePath;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
     }
 }
 

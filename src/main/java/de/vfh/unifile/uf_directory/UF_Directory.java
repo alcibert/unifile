@@ -52,6 +52,7 @@ public class UF_Directory extends UF_Content{
                     child.lastModified(),
                     child.getPath()
                 );
+                newDir.setVolume(this.volume);
                 newDir.setAbsolutePath(origin.getAbsolutePath());
                 newDir.setDirectory(true);
                 if (fullDepthScan) {
@@ -67,6 +68,7 @@ public class UF_Directory extends UF_Content{
                     child.getPath(),
                     child.hashCode()
                 );
+                newFile.setVolume(this.volume);
                 newFile.setAbsolutePath(origin.getAbsolutePath());
                 newFile.setDirectory(false);
                 this.content.add(newFile);
