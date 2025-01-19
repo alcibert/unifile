@@ -29,36 +29,20 @@ public class UF_DirectoryService {
 
     public UF_Content explore(String cwd){
         if(cwd.equals(".")){
-            // Give a List of all available Drives
-            File[] paths;
-            paths = File.listRoots();
-            UF_Directory newDir = new UF_Directory("Available Drives",".");
-            newDir.setAbsolutePath("");
-            for(File path:paths){
-                UF_Directory newDrive = new UF_Directory(path.toString(), path.toString());
-                newDrive.setAbsolutePath("");
-                newDrive.setDirectory(true);
-                newDir.addToContent(newDrive);
-            }
-            return newDir;
+            return listConnectedDrives();
         }
-        // ToDo: Refactoring -> nur einmal die erstellen Routine hinterlegen
-        File origin = new File(cwd);
-        Boolean isDirectory = origin.isDirectory();
-        UF_Directory newDir = new UF_Directory(
-            origin.getName(),
-            0L,
-            origin.lastModified(),
-            origin.getPath()
-        );
-        newDir.setAbsolutePath(origin.getAbsolutePath());
-        newDir.setDirectory(isDirectory);
-        newDir.scanContents(false);
-        return newDir;
+        return scanContent(cwd, false);
     }
 
     public UF_Directory scanPath(String volume, String path) throws IOException{
-        //ToDo: verschiedene Volumes in Datenbank schreiben
+        return scanContent(path,true, volume);
+    }
+
+    private UF_Directory scanContent(String path, Boolean fullDepthScan){
+        return scanContent(path, fullDepthScan, "none");
+    }
+
+    private UF_Directory scanContent(String path, Boolean fullDepthScan, String volume){
         File origin = new File(path);
         UF_Directory newDir = new UF_Directory(
             origin.getName(),
@@ -66,10 +50,26 @@ public class UF_DirectoryService {
             origin.lastModified(),
             origin.getPath()
         );
-        newDir.setVolume(volume);
+        if(!volume.equals("none")){
+            newDir.setVolume(volume);
+        }
         newDir.setAbsolutePath(origin.getAbsolutePath());
         newDir.setDirectory(origin.isDirectory());
-        newDir.scanContents(true);
+        newDir.scanContents(fullDepthScan);
+        return newDir;
+    }
+    
+    private UF_Directory listConnectedDrives(){
+        File[] paths;
+        paths = File.listRoots();
+        UF_Directory newDir = new UF_Directory("Available Drives",".");
+        newDir.setAbsolutePath("");
+        for(File path:paths){
+            UF_Directory newDrive = new UF_Directory(path.toString(), path.toString());
+            newDrive.setAbsolutePath("");
+            newDrive.setDirectory(true);
+            newDir.addToContent(newDrive);
+        }
         return newDir;
     }
 }
