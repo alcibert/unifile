@@ -1,0 +1,29 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+
+
+:root{
+    --colourA:#ffecdd;
+    --colourB:#ddefff; 
+    font-size: 16px;
+}
+.workspace {
+    display: flex;
+}
+
+.space{
+    text-align: center;
+    padding: 1em;
+    margin: 1em;
+    width: 50%;
+}
+
+
+.spaceA{
+    background-color: var(--colourA);
+}
+.spaceB{
+    background-color: var(--colourB);
+}

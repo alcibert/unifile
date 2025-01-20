@@ -42,6 +42,9 @@ function createHeader(response){
     let close = document.createElement("span");
     close.classList.add("close");
     close.innerHTML = "&#9587;";
+    close.addEventListener('click', function(e){
+        app.style.display = 'none';
+    });
     headerElement.appendChild(close);
     app.appendChild(headerElement);
 }
@@ -186,7 +189,11 @@ function createFooter(payload){
     selectButton.innerHTML="Ordner auswählen";
     // selectButton.classList.add("");
     selectButton.addEventListener("click", function(e){
-        console.log(markedDirectory)
+        console.log(markedDirectory);
+        // TODO:::: const overlayEvent = new CustomEvent('overlayValue', { detail: { value: inputValue } });
+        // document.dispatchEvent(overlayEvent);
+        document.getElementById("pathSelectorA").value = markedDirectory;
+        document.getElementById("explorer").style.display = "none";
     });
     footer.appendChild(path);
     footer.appendChild(selectButton);
