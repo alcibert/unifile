@@ -1,4 +1,5 @@
 let app = document.getElementById("explorer");
+let markedDirectory = "";
 
 function fetchData(cwd = "."){
     url = `/api/v1.0/directory/explore?cwd=${cwd}`;
@@ -15,6 +16,7 @@ function handleResponse(payload){
     createHeader(payload);
     createNavigation(payload);
     createFolderContent(payload);
+    createFooter(payload);
 }
 
 function createHeader(response){
@@ -49,12 +51,14 @@ function createNavigation(payload){
     nav.classList.add("navBar");
 
     let back = document.createElement("span");
-    back.classList.add("back");
+    back.classList.add("back","cursorNotAllowed");
+    back.setAttribute('title', "reserve for future use");
     back.innerHTML = "&larr;";
     nav.appendChild(back);
 
     let up = document.createElement("span");
-    up.classList.add("up");
+    up.classList.add("up","cursorNotAllowed");
+    up.setAttribute('title', "reserve for future use");
     up.innerHTML = "&uarr;";
     nav.appendChild(up);
 
@@ -165,6 +169,28 @@ function createFile(file, toAppend){
     if(file.isDirectory){
         fileElement.addEventListener("dblclick", fetchData.bind(this, encodeURIComponent(eventListenerUrl)), false);
         console.log(encodeURI(eventListenerUrl))
+        fileElement.addEventListener("click", function(e){
+            markedDirectory = eventListenerUrl;
+            document.getElementById("path").innerHTML=markedDirectory;
+        });
     }
     toAppend.appendChild(fileElement);
+}
+
+function createFooter(payload){
+    let footer = document.createElement("div");
+    footer.classList.add("footer")
+    let path = document.createElement("span");
+    path.setAttribute("id", "path");
+    let selectButton = document.createElement("button");
+    selectButton.innerHTML="Ordner auswählen";
+    // selectButton.classList.add("");
+    selectButton.addEventListener("click", function(e){
+        console.log(markedDirectory)
+    });
+    footer.appendChild(path);
+    footer.appendChild(selectButton);
+    app.appendChild(footer);
+
+
 }

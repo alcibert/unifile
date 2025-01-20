@@ -206,6 +206,30 @@ body {
     padding:0 0 0 .2em;
 }
 
+.footer {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width:100%;
+    background-color: var(--darkgray);
+    padding: 5px 0 5px 0;
+    display:table-row;
+
+}
+
+.footer button{
+    right: 0;
+}
+
+.cursorNotAllowed{
+    cursor: not-allowed;
+}
+
+#path{
+    left: 1em;
+    color: white;
+}
+
 .contentRow{
     display:table-row;
     font-size: 0.9em;
