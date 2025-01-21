@@ -12,7 +12,9 @@
 <body>
     <h1>Unifile</h1>
     
-     <p> Erklärung und Anleitung</p>
+     <p> UniFile ermöglicht es Usern, zwei Dateisysteme zu synchronisieren oder zu vereinigen. UniFile sucht lediglich nach Doppelungen zwischen den beiden Pfaden, nicht nach Dubletten innerhalb eines Ordners. Es tauchen für die User sichtbar alle Einträge auf, die doppelt vorhanden zu sein scheinen. Hier können die User für jede Datei einzeln entscheiden, welche von beiden behalten bzw. gelöscht werden soll.
+        Wurde der Umgang mit allen Konflikten festgelegt, können die Nutzer sich aussuchen, ob die Dateisysteme nun synchronisiert oder vereinigt werden sollen. Ein Synchronisieren würde nach der Abarbeitung auf beiden Systemen denselben Inhalt hinterlassen. Eine Vereinigung bereinigt nach der Abarbeitung den zweiten Ordner komplett, da alle zu behaltenden Files in den ersten Ordner kopiert wurden.
+        </p>
      <div id="workspace" class="workspace">
         <div class="spaceA space clickable" data-field="A">
             <input type="text" id="pathSelectorA" class="pathSelector" placeholder="Ordner wählen" disabled>
@@ -24,18 +26,18 @@
         </div>
      </div>
      <div>
-        <button  id="" >Dummy 1</button>
-        <button  id="" >Dummy 2</button>
+        <button  id="" > Dateisysteme synchronisieren</button>
+        <button  id="" > In A vereinigen, danach B löschen</button> 
     </div>
     <div id="explorer" class="filebrowser"></div>
 
     <!-- ____________________________TESTAREA_____________________________________ -->
-    <div>
+    <!-- <div>
         <h2>Dummy Inputs für den Scanauftrag der Pfade</h2>
         <p>Muss ausgetauscht werden, dass ein Button den explorer öffnet und der Explorer dann mit bestätigen den Scanauftrag erteilt.</p>
         <button id="scanA" data-field="A">Scan A</button>
         <button id="scanB" data-field="B">Scan B</button>
-    </div>
+    </div> -->
 
 
 </body>

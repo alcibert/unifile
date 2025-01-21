@@ -3,8 +3,8 @@ let scanB = document.getElementById("scanB");
 let spaceA = document.getElementsByClassName("spaceA")[0];
 let spaceB = document.getElementsByClassName("spaceB")[0];
 let explorer = document.getElementById("explorer");
-scanA.addEventListener("click", scan);
-scanB.addEventListener("click", scan);
+// scanA.addEventListener("click", scan);
+// scanB.addEventListener("click", scan);
 const apiURL = "/api/v1.0/";
 
 
