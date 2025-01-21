@@ -18,12 +18,35 @@
     padding: 1em;
     margin: 1em;
     width: 50%;
+    min-height:300px;
+    background-color: var(--bgColor);
 }
 
+.clickable{
+    cursor:pointer;
+    transition: outline 100ms ease;
+    outline:0px solid gray;
+}
+.clickable:hover,
+.clickable:focus{
+    outline:5px solid gray;
+}
+
+.pathSelector{
+    outline:none;
+    border:none;
+    background:transparent;
+    color:black;
+    width:100%;
+    text-align: center;
+}
+.pathSelector::placeholder{
+    color:black;
+}
 
 .spaceA{
-    background-color: var(--colourA);
+    --bgColor:var(--colourA);
 }
 .spaceB{
-    background-color: var(--colourB);
+    --bgColor:var(--colourB);
 }

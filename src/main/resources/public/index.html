@@ -14,11 +14,13 @@
     
      <p> Erklärung und Anleitung</p>
      <div id="workspace" class="workspace">
-        <div class="spaceA space">
-            <input type="text" id="pathSelectorA" placeholder="Pfad A eintragen"> oder <button id="explorerButtonA" data-field="A" > Pfad A auswählen</button>
+        <div class="spaceA space clickable" data-field="A">
+            <input type="text" id="pathSelectorA" class="pathSelector" placeholder="Ordner wählen" disabled>
+            <div class="pathContentWrapper"></div>
         </div>
-        <div class="spaceB space">
-            <input type="text" id="pathSelectorB" placeholder="Pfad B eintragen"> oder <button  id="explorerButtonB" data-field="B" >Pfad B auswählen</button>
+        <div class="spaceB space clickable" data-field="B">
+            <input type="text" id="pathSelectorB" class="pathSelector" placeholder="Ordner wählen" disabled>
+            <div class="pathContentWrapper"></div>
         </div>
      </div>
      <div>

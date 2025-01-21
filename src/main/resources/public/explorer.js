@@ -169,9 +169,9 @@ function createFile(file, toAppend){
         frontOfPath = `${file.absolutePath}\\`
     }
     let eventListenerUrl = `${frontOfPath}${file.name}`.replaceAll("\\", "/");
+    eventListenerUrl = eventListenerUrl.replaceAll("//", "/");
     if(file.isDirectory){
         fileElement.addEventListener("dblclick", fetchData.bind(this, encodeURIComponent(eventListenerUrl)), false);
-        console.log(encodeURI(eventListenerUrl))
         fileElement.addEventListener("click", function(e){
             markedDirectory = eventListenerUrl;
             document.getElementById("path").innerHTML=markedDirectory;
@@ -189,8 +189,8 @@ function createFooter(payload){
     selectButton.innerHTML="Ordner auswählen";
     // selectButton.classList.add("");
     selectButton.addEventListener("click", function(e){
-        console.log(markedDirectory);
-        document.getElementById("pathSelector"+ explorer.dataset.field).value = markedDirectory;
+        document.getElementById(`pathSelector${explorer.dataset.field}`).value = markedDirectory;
+        scan(explorer.dataset.field, markedDirectory);
         document.getElementById("explorer").style.display = "none";
     });
     footer.appendChild(path);
