@@ -7,19 +7,17 @@ scanA.addEventListener("click", scan);
 scanB.addEventListener("click", scan);
 const apiURL = "/api/v1.0/";
 
-document.addEventListener('submitPathA', (event) => {
-   // const inputValue = event.detail.value;
-    //Alci TODO: value in Textfeld eintragen entsprechendes - data field attribut dem filebrowser mitgeben,d er kann das dann uaslesen und richtig eintragen, dann brauchts keinenn EventlIstener
-});
 
-//Alci TODO analog für submitPathB
+openExplorerA.addEventListener("click", openExplorer);
+openExplorerB.addEventListener("click", openExplorer);
 
-openExplorerA.addEventListener("click", function (e){
+function openExplorer(e){
     explorer.style.display="flex";
-});
+    explorer.dataset.field = e.target.dataset.field;
+}
 
 function scan(e){
-    let volume = e.target.dataset.volume;
+    let volume = e.target.dataset.field;
     let path = document.getElementById(`pathSelector${volume.toUpperCase()}`).value;
     let url = `${apiURL}directory/scan/${volume}?path=${path}`;
     fetch(url, callback);

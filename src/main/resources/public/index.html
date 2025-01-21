@@ -15,10 +15,10 @@
      <p> Erklärung und Anleitung</p>
      <div id="workspace" class="workspace">
         <div class="spaceA space">
-            <input type="text" id="pathSelectorA" placeholder="Pfad A eintragen"> oder <button id="explorerButtonA" > Pfad A auswählen</button>
+            <input type="text" id="pathSelectorA" placeholder="Pfad A eintragen"> oder <button id="explorerButtonA" data-field="A" > Pfad A auswählen</button>
         </div>
         <div class="spaceB space">
-            <input type="text" id="pathSelectorB" placeholder="Pfad B eintragen"> oder <button  id="explorerButtonB" >Pfad B auswählen</button>
+            <input type="text" id="pathSelectorB" placeholder="Pfad B eintragen"> oder <button  id="explorerButtonB" data-field="B" >Pfad B auswählen</button>
         </div>
      </div>
      <div>
@@ -31,8 +31,8 @@
     <div>
         <h2>Dummy Inputs für den Scanauftrag der Pfade</h2>
         <p>Muss ausgetauscht werden, dass ein Button den explorer öffnet und der Explorer dann mit bestätigen den Scanauftrag erteilt.</p>
-        <button id="scanA" data-volume="A">Scan A</button>
-        <button id="scanB" data-volume="B">Scan B</button>
+        <button id="scanA" data-field="A">Scan A</button>
+        <button id="scanB" data-field="B">Scan B</button>
     </div>
 
 

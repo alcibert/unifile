@@ -190,9 +190,7 @@ function createFooter(payload){
     // selectButton.classList.add("");
     selectButton.addEventListener("click", function(e){
         console.log(markedDirectory);
-        // TODO:::: const overlayEvent = new CustomEvent('overlayValue', { detail: { value: inputValue } });
-        // document.dispatchEvent(overlayEvent);
-        document.getElementById("pathSelectorA").value = markedDirectory;
+        document.getElementById("pathSelector"+ explorer.dataset.field).value = markedDirectory;
         document.getElementById("explorer").style.display = "none";
     });
     footer.appendChild(path);
