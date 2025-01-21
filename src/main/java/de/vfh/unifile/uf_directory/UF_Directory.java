@@ -33,6 +33,7 @@ public class UF_Directory extends UF_Content{
         if (!sameSuper){return false;}
         if (!(other instanceof UF_Directory)) {return false;}
         // ToDo: alle Files durchlaufen und auf gleichheit überprüfen
+        
         return true;
     }
 
