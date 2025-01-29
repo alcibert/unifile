@@ -2,24 +2,16 @@
     box-sizing: border-box;
 }
 
-
-
 :root{
     --colourA:#ffecdd;
     --colourB:#ddefff; 
     font-size: 16px;
 }
+body{
+    font-family: system-ui;
+}
 .workspace {
     display: flex;
-}
-
-.space{
-    text-align: center;
-    padding: 1em;
-    margin: 1em;
-    width: 50%;
-    min-height:300px;
-    background-color: var(--bgColor);
 }
 
 .clickable{
@@ -56,9 +48,30 @@
     color:black;
 }
 
+.space{
+    text-align: center;
+    padding: 1em;
+    margin: 1em;
+    width: 50%;
+    min-height:300px;
+    background-color: var(--bgColor);
+}
 .spaceA{
     --bgColor:var(--colourA);
 }
 .spaceB{
     --bgColor:var(--colourB);
+}
+
+.pathContentWrapper{
+    display:flex;
+    flex-direction: column;
+    gap:.2rem;
+    width:100%;
+}
+.pathContentWrapper .content{
+    display:grid;
+    width:100%;
+    grid-template-columns: 2fr 2fr 1fr;
+    text-align: left;
 }

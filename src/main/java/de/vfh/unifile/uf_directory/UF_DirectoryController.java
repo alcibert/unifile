@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Hier sollen nur die API Endpoints aufgelistet sein.
  * Alle Aufrufe gehen an den Service Layer
  */
+@CrossOrigin(origins = "http://localhost:5050", maxAge = 3600)
 @RestController
 @RequestMapping(path = "api/v1.0/directory")
 public class UF_DirectoryController {
@@ -40,15 +42,15 @@ public class UF_DirectoryController {
     }
 
     //ToDo: Die Endpoints in Postman hinterlegen
-    @RequestMapping(path = "explore")
     @GetMapping
+    @RequestMapping(path = "explore")
     public UF_Content explore(@RequestParam("cwd") String cwd) {
         return dirService.explore(cwd);
     }
 
     //ToDo: Endpoint in Postman hinterlegen
-    @RequestMapping(path = "scan/{volume}")
     @GetMapping
+    @RequestMapping(path = "scan/{volume}")
     public UF_Directory scan(@PathVariable String volume, @RequestParam("path") String path) throws IOException{
         return dirService.scanPath(volume, path);
     }
