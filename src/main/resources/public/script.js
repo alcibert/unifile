@@ -38,14 +38,18 @@ function appendContent(wrapper, contentList){
             appendContent(wrapper, child.content);
             continue;
         }
-        
+
         let domElement = document.createElement("div");
+        domElement.classList.add("content");
         let name = document.createElement("span");
+        name.classList.add("name");
         name.innerText = child.name;
         let relPath = document.createElement("span");
         relPath.innerText = child.relativePath;
+        relPath.classList.add("relPath");
         let hash= document.createElement("span");
         hash.innerText = child.hashValue;
+        hash.classList.add("hash");
 
         domElement.appendChild(name);
         domElement.appendChild(relPath);
