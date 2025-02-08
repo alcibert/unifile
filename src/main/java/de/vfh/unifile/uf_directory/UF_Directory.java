@@ -1,6 +1,7 @@
 package de.vfh.unifile.uf_directory;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class UF_Directory extends UF_Content{
     public UF_Directory(String name, String relativePath){
         super(name, relativePath);
     }
-    public UF_Directory(String name, Long size, Long lastModified, String relativePath){
-        super(name, size, lastModified, relativePath);
+    public UF_Directory(String name, Long size, Long lastModified, String absolutePath){
+        super(name, size, lastModified, absolutePath);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class UF_Directory extends UF_Content{
     }
 
     public void scanContents(Boolean fullDepthScan){
-        File origin = new File(this.relativePath);
+        File origin = new File(this.absolutePath);
         File[] children = origin.listFiles();
         
         for(File child: children){
@@ -51,10 +52,10 @@ public class UF_Directory extends UF_Content{
                     child.getName(),
                     child.length(),
                     child.lastModified(),
-                    child.getPath()
+                    child.getAbsolutePath()
                 );
                 newDir.setVolume(this.volume);
-                newDir.setAbsolutePath(origin.getAbsolutePath());
+                newDir.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, this.getName()));
                 newDir.setDirectory(true);
                 if (fullDepthScan) {
                     newDir.scanContents();
@@ -66,11 +67,11 @@ public class UF_Directory extends UF_Content{
                     child.getName(),
                     child.length(),
                     child.lastModified(),
-                    child.getPath(),
+                    child.getAbsolutePath(),
                     child.hashCode()
                 );
                 newFile.setVolume(this.volume);
-                newFile.setAbsolutePath(origin.getAbsolutePath());
+                newFile.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, this.getName()));
                 newFile.setDirectory(false);
                 this.content.add(newFile);
             }
@@ -84,6 +85,9 @@ public class UF_Directory extends UF_Content{
 
     public void addToContent(UF_Content toAdd){
         this.content.add(toAdd);
+    }
+    public void setContent(List<UF_Content> content) {
+        this.content = content;
     }
     
 }

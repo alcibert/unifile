@@ -48,12 +48,12 @@ public class UF_DirectoryService {
             origin.getName(),
             0L,
             origin.lastModified(),
-            origin.getPath()
+            origin.getAbsolutePath()
         );
         if(!volume.equals("none")){
             newDir.setVolume(volume);
         }
-        newDir.setAbsolutePath(origin.getAbsolutePath());
+        newDir.setRelativePath("");
         newDir.setDirectory(origin.isDirectory());
         newDir.scanContents(fullDepthScan);
         return newDir;

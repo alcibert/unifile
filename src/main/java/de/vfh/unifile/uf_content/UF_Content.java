@@ -29,20 +29,20 @@ public class UF_Content {
     protected Boolean isDirectory;
     protected String volume;
 
-    public UF_Content(String name, Long size, Long lastModified, String relativePath) {
+    public UF_Content(String name, Long size, Long lastModified, String absolutePath) {
         this.name = name;
         this.size = size;
         this.lastModified = lastModified;
-        this.relativePath = relativePath;
+        this.absolutePath = absolutePath;
     }
 
     public UF_Content(
 
     ){}
 
-    public UF_Content(String name, String relativePath) {
+    public UF_Content(String name, String absolutePath) {
         this.name = name;
-        this.relativePath = relativePath;
+        this.absolutePath = absolutePath;
         // The rest has to be set through the database or after scanning the file system for the file
     }
 
@@ -116,6 +116,10 @@ public class UF_Content {
 
     public void setVolume(String volume) {
         this.volume = volume;
+    }
+
+    public void setRelativePath(String relativePath) {
+        this.relativePath = relativePath;
     }
 }
 

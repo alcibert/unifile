@@ -9,11 +9,11 @@ public class UF_File extends UF_Content{
         return hashValue;
     }
     public UF_File(){};
-    public UF_File(String name, String path){
-        super(name, path);
+    public UF_File(String name, String absolutePath){
+        super(name, absolutePath);
     }
-    public UF_File(String name, Long size, Long lastModified, String relativePath, int hashValue){
-        super(name, size, lastModified, relativePath);
+    public UF_File(String name, Long size, Long lastModified, String absolutePath, int hashValue){
+        super(name, size, lastModified, absolutePath);
         this.hashValue = hashValue;
     }
 
