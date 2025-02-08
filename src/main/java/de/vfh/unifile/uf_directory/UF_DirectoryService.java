@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.vfh.unifile.uf_content.UF_Content;
-import de.vfh.unifile.uf_content.UF_ContentRepository;
+import de.vfh.unifile.uf_directory.UF_DirectoryRepository;
 
 /***
  * Hier soll die Arbeit mit den Ordnern passieren.
@@ -16,14 +16,14 @@ import de.vfh.unifile.uf_content.UF_ContentRepository;
  */
 @Service
 public class UF_DirectoryService {
-    private final UF_ContentRepository repository;
+    private final UF_DirectoryRepository repository;
     
     @Autowired
-    public UF_DirectoryService(UF_ContentRepository repository) {
+    public UF_DirectoryService(UF_DirectoryRepository repository) {
         this.repository = repository;
     }
 
-    public List<UF_Content> getDirectorys(){
+    public List<UF_Directory> getDirectorys(){
         return this.repository.findAll();
     }
 
@@ -56,6 +56,7 @@ public class UF_DirectoryService {
         newDir.setRelativePath("");
         newDir.setDirectory(origin.isDirectory());
         newDir.scanContents(fullDepthScan);
+        repository.save(newDir);
         return newDir;
     }
     

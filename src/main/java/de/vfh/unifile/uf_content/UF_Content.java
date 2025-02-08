@@ -1,26 +1,22 @@
 package de.vfh.unifile.uf_content;
 
+import de.vfh.unifile.uf_directory.UF_Directory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-@Table
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UF_Content {
     @Id
-    @SequenceGenerator(
-        name = "uf_content_sequence",
-        sequenceName = "uf_content_sequence",
-        allocationSize = 1
-    )
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "uf_content_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
     protected String name;
     protected Long size;
     protected Long lastModified;
@@ -28,6 +24,10 @@ public class UF_Content {
     protected String absolutePath;
     protected Boolean isDirectory;
     protected String volume;
+
+    @ManyToOne
+    @JoinColumn(name = "directory_id")
+    private UF_Directory parent;
 
     public UF_Content(String name, Long size, Long lastModified, String absolutePath) {
         this.name = name;
@@ -120,6 +120,10 @@ public class UF_Content {
 
     public void setRelativePath(String relativePath) {
         this.relativePath = relativePath;
+    }
+
+    public void setParent(UF_Directory parent) {
+        this.parent = parent;
     }
 }
 
