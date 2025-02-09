@@ -67,7 +67,7 @@ public class UF_DirectoryService {
         newDir.setAbsolutePath("");
         for(File path:paths){
             UF_Directory newDrive = new UF_Directory(path.toString(), path.toString());
-            newDrive.setAbsolutePath("");
+            // newDrive.setAbsolutePath("");
             newDrive.setDirectory(true);
             newDir.addToContent(newDrive);
         }
