@@ -31,7 +31,7 @@ public class UF_DirectoryController {
     }
     
     @GetMapping
-    public List<UF_Content> getDirectorys(){
+    public List<UF_Directory> getDirectorys(){
         return dirService.getDirectorys();
     }
 
