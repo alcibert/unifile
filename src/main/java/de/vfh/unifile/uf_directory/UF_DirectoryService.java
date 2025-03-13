@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.vfh.unifile.uf_content.UF_Content;
-import de.vfh.unifile.uf_directory.UF_DirectoryRepository;
+import de.vfh.unifile.uf_file.UF_File;
 
 /***
  * Hier soll die Arbeit mit den Ordnern passieren.
@@ -72,5 +72,9 @@ public class UF_DirectoryService {
             newDir.addToContent(newDrive);
         }
         return newDir;
+    }
+
+    public List<UF_File> getAllFiles(String volume){
+        return this.repository.findByVolume(volume);
     }
 }
