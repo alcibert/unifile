@@ -1,8 +1,13 @@
 package de.vfh.unifile.uf_file;
 
 import de.vfh.unifile.uf_content.UF_Content;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 public class UF_File extends UF_Content{
+    @Id
+    protected Long id;
     private int hashValue;
 
     public int getHashValue() {
