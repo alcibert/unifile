@@ -63,3 +63,9 @@ body{
     grid-template-columns: 2fr 2fr 1fr;
     text-align: left;
 }
+
+@media (prefers-color-scheme: dark){
+    body{
+        background: rgb(43, 41, 66);
+    }
+}

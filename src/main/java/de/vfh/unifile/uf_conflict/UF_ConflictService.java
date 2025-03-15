@@ -13,6 +13,7 @@ import de.vfh.unifile.uf_file.UF_File;
 
 @Service
 public class UF_ConflictService {
+
     private final UF_ConflictRepository repository;
     private final UF_ContentRepository contentRepository;
     
@@ -35,6 +36,19 @@ public class UF_ConflictService {
             conf.setFileA(fA);
             conf.setFileB(fB);
             conf.setMerge(MergeStrategy.NOT_SET);
+            System.out.println("\n \n \n CONFLIKT: ");
+            System.out.println(conf);
+            System.out.println("\n \n \n \n");
+            this.repository.save(conf);
         }
+        System.out.println("\n \n KEINE KONFLIKTE \n \n");
+    }
+    
+    public UF_Conflict getConflict(Long conflictId){
+        return this.repository.getReferenceById(conflictId);
+    }
+
+    public void updateConflict(UF_Conflict conf){
+        this.repository.save(conf);
     }
 }

@@ -1,6 +1,10 @@
 package de.vfh.unifile.uf_directory;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +81,8 @@ public class UF_Directory extends UF_Content{
                     child.getAbsolutePath()
                 );
                 newDir.setVolume(this.volume);
-                newDir.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, this.getName()));
+                // newDir.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, this.getName()));
+                newDir.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, newDir.name));
                 newDir.setDirectory(true);
                 newDir.setParent(this);
                 if (fullDepthScan) {
@@ -86,15 +91,21 @@ public class UF_Directory extends UF_Content{
                 this.content.add(newDir);
             }
             if(child.isFile()){
+                String hashString = "n.P.";
+                try {
+                    hashString = getFileHash(child);
+                } catch (Exception e) {
+                    System.out.println("Could not generate Hash for File " + child.getName());
+                }
                 UF_File newFile = new UF_File(
                     child.getName(),
                     child.length(),
                     child.lastModified(),
                     child.getAbsolutePath(),
-                    child.hashCode()
+                    hashString
                 );
                 newFile.setVolume(this.volume);
-                newFile.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, this.getName()));
+                newFile.setRelativePath(MessageFormat.format("\\{0}", this.relativePath));
                 newFile.setDirectory(false);
                 newFile.setParent(this);
                 this.content.add(newFile);
@@ -113,6 +124,26 @@ public class UF_Directory extends UF_Content{
     public void setContent(List<UF_Content> content) {
         this.content = content;
     }
+
     
+    private static String getFileHash(File file) throws NoSuchAlgorithmException, IOException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        try (FileInputStream fis = new FileInputStream(file)) {
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                digest.update(buffer, 0, bytesRead);
+            }
+        }
+        return bytesToHex(digest.digest());
+    }
+
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
 }
 

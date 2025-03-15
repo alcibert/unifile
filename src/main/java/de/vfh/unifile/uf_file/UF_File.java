@@ -8,16 +8,16 @@ import jakarta.persistence.Id;
 public class UF_File extends UF_Content{
     @Id
     protected Long id;
-    private int hashValue;
+    private String hashValue;
 
-    public int getHashValue() {
+    public String getHashValue() {
         return hashValue;
     }
     public UF_File(){};
     public UF_File(String name, String absolutePath){
         super(name, absolutePath);
     }
-    public UF_File(String name, Long size, Long lastModified, String absolutePath, int hashValue){
+    public UF_File(String name, Long size, Long lastModified, String absolutePath, String hashValue){
         super(name, size, lastModified, absolutePath);
         this.hashValue = hashValue;
     }

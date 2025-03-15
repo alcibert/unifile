@@ -8,8 +8,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import de.vfh.unifile.primitives.MergeStrategy;
+import de.vfh.unifile.uf_conflict.UF_ConflictService;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 
 @RestController
@@ -33,5 +39,13 @@ public class UF_ConflictController {
         this.conflictService.analyzeConflicts();
         return this.conflictService.getAllConflicts();
     }
-    
+
+    @PostMapping("{conflictId}/setMergeStrategy")
+    public UF_Conflict setMergeStrategy(@PathVariable Long conflictId, @RequestBody MergeStrategy mergeStrategy) {
+        UF_Conflict conf = this.conflictService.getConflict(conflictId);
+        conf.setMerge(mergeStrategy);
+        this.conflictService.updateConflict(conf);
+        return conf;
+    }
+        
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import de.vfh.unifile.uf_content.UF_Content;
 import de.vfh.unifile.uf_file.UF_File;
+import de.vfh.unifile.uf_content.UF_ContentRepository;
 
 /***
  * Hier soll die Arbeit mit den Ordnern passieren.
@@ -16,11 +17,14 @@ import de.vfh.unifile.uf_file.UF_File;
  */
 @Service
 public class UF_DirectoryService {
+
     private final UF_DirectoryRepository repository;
+    private final UF_ContentRepository contentRepository;
     
     @Autowired
-    public UF_DirectoryService(UF_DirectoryRepository repository) {
+    public UF_DirectoryService(UF_DirectoryRepository repository, UF_ContentRepository contentRepository) {
         this.repository = repository;
+        this.contentRepository = contentRepository;
     }
 
     public List<UF_Directory> getDirectorys(){
@@ -43,6 +47,10 @@ public class UF_DirectoryService {
     }
 
     private UF_Directory scanContent(String path, Boolean fullDepthScan, String volume){
+        List<UF_Content> existing = this.repository.findByVolume(volume);
+        for(UF_Content found : existing){
+            this.contentRepository.delete(found);
+        }
         File origin = new File(path);
         UF_Directory newDir = new UF_Directory(
             origin.getName(),
@@ -51,7 +59,7 @@ public class UF_DirectoryService {
             origin.getAbsolutePath()
         );
         if(!volume.equals("none")){
-            newDir.setVolume(volume);
+            newDir.setVolume(volume.toLowerCase());
         }
         newDir.setRelativePath("");
         newDir.setDirectory(origin.isDirectory());
@@ -74,7 +82,7 @@ public class UF_DirectoryService {
         return newDir;
     }
 
-    public List<UF_File> getAllFiles(String volume){
+    public List<UF_Content> getAllFiles(String volume){
         return this.repository.findByVolume(volume);
     }
 }
