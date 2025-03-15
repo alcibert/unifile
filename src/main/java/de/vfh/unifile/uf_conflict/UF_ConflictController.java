@@ -2,6 +2,7 @@ package de.vfh.unifile.uf_conflict;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,11 +42,10 @@ public class UF_ConflictController {
     }
 
     @PostMapping("{conflictId}/setMergeStrategy")
-    public UF_Conflict setMergeStrategy(@PathVariable Long conflictId, @RequestBody MergeStrategy mergeStrategy) {
+    public MergeStrategy setMergeStrategy(@PathVariable Long conflictId, @RequestBody MergeStrategy mergeStrategy) {
+        this.conflictService.setMerge(conflictId, mergeStrategy);
         UF_Conflict conf = this.conflictService.getConflict(conflictId);
-        conf.setMerge(mergeStrategy);
-        this.conflictService.updateConflict(conf);
-        return conf;
+        return conf.getMerge();
     }
-        
+    
 }

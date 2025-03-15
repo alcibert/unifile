@@ -23,5 +23,12 @@ public interface UF_ConflictRepository extends JpaRepository<UF_Conflict, Long> 
         AND NOT a.hashValue = b.hashValue
         """)
     List<UF_ConflictDTO> analyzeConflictFiles();
+
+    @Query(value = """
+        SELECT c FROM UF_Conflict c 
+        JOIN FETCH c.fileA 
+        JOIN FETCH c.fileB
+       """)
+    List<UF_Conflict> findAllWithFiles();
 }
 
