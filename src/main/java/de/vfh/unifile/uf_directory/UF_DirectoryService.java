@@ -94,7 +94,7 @@ public class UF_DirectoryService {
      * @return UF_Directory Objects des gescannten Ordners
      */
     private UF_Directory scanContent(String path, Boolean fullDepthScan, String volume){
-        UF_Directory root = this.repository.getRootDir(volume, "");
+        UF_Directory root = this.repository.getRootDir(volume.toLowerCase(), "");
         if(root != null){
             this.conflictRepository.deleteAll();
             this.conflictRepository.flush();
