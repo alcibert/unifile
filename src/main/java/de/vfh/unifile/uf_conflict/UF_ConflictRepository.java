@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface UF_ConflictRepository extends JpaRepository<UF_Conflict, Long> {
 
@@ -30,5 +31,8 @@ public interface UF_ConflictRepository extends JpaRepository<UF_Conflict, Long> 
         JOIN FETCH c.fileB
        """)
     List<UF_Conflict> findAllWithFiles();
+
+    @Query(value = "SELECT * FROM UF_CONFLICT WHERE filea_id = :fileID OR fileb_id = :fileID", nativeQuery = true)
+    UF_Conflict findByFileId(@Param("fileID") Long fileID);
 }
 

@@ -10,6 +10,7 @@ import de.vfh.unifile.primitives.MergeStrategy;
 import de.vfh.unifile.uf_content.UF_ContentRepository;
 // import de.vfh.unifile.uf_file.UF_File;
 import de.vfh.unifile.uf_file.UF_File;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 
@@ -24,6 +25,9 @@ public class UF_ConflictService {
         this.repository = repository;
         this.contentRepository = contentRepository;
     }
+
+    @Autowired
+    private EntityManager entityManager;
     
     public List<UF_Conflict> getAllConflicts(){
         List<UF_Conflict> found = this.repository.findAllWithFiles();
@@ -36,6 +40,8 @@ public class UF_ConflictService {
 
     public void analyzeConflicts(){
         this.repository.deleteAll();
+        this.repository.flush();
+        entityManager.clear();
         List<UF_ConflictDTO> foundConflicts = this.repository.analyzeConflictFiles();
         for (UF_ConflictDTO conflictDTO : foundConflicts) {
             UF_Conflict conf = new UF_Conflict();

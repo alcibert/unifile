@@ -7,6 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.vfh.unifile.primitives.MergeStrategy;
+import de.vfh.unifile.uf_conflict.UF_Conflict;
+import de.vfh.unifile.uf_conflict.UF_ConflictRepository;
 import de.vfh.unifile.uf_content.UF_Content;
 import de.vfh.unifile.uf_file.UF_File;
 import de.vfh.unifile.uf_content.UF_ContentRepository;
@@ -20,11 +23,13 @@ public class UF_DirectoryService {
 
     private final UF_DirectoryRepository repository;
     private final UF_ContentRepository contentRepository;
+    private final UF_ConflictRepository conflictRepository;
     
     @Autowired
-    public UF_DirectoryService(UF_DirectoryRepository repository, UF_ContentRepository contentRepository) {
+    public UF_DirectoryService(UF_DirectoryRepository repository, UF_ContentRepository contentRepository, UF_ConflictRepository conflictRepository) {
         this.repository = repository;
         this.contentRepository = contentRepository;
+        this.conflictRepository = conflictRepository;
     }
 
     public List<UF_Directory> getDirectorys(){
@@ -85,4 +90,38 @@ public class UF_DirectoryService {
     public List<UF_Content> getAllFiles(String volume){
         return this.repository.findByVolume(volume);
     }
+
+    public void copy(String sourceVolume, String destVolume, String sourceRelPath){
+        UF_Directory source = this.repository.getRootDir(sourceVolume, sourceRelPath);
+        UF_Directory destination = this.repository.getRootDir(destVolume, "");
+
+        for (UF_Content element : source.getContent()){
+            if(element.getIsDirectory()){
+                //Recursively Loop through the Directorys
+                System.out.println("Recursive Call started");
+                copy(sourceVolume, destVolume, element.getRelativePath());
+                System.out.println("Recursive Call ended");
+                continue;
+            }
+            UF_File sourceFile = (UF_File) element;
+            String destinationPath = destination.getAbsolutePath() + sourceFile.getRelativePath() + '/' + sourceFile.getName();
+            System.out.println("Call to copy");
+            
+            UF_Conflict conflict = this.conflictRepository.findByFileId(element.getId());
+            if (conflict == null){
+                sourceFile.copyTo(destinationPath);
+                continue;
+            }
+            System.out.println("Conflict Found with Strategy: " + conflict.getMerge());
+            if (conflict.getMerge() == MergeStrategy.IGNORE){ continue;}
+            if (conflict.getMerge() == MergeStrategy.KEEP_A){}
+            if (conflict.getMerge() == MergeStrategy.KEEP_B){
+                sourceFile = conflict.getFileB();
+                destinationPath = source.getAbsolutePath() + sourceFile.getRelativePath() + '/' + sourceFile.getName();
+            }
+            if (conflict.getMerge() == MergeStrategy.NOT_SET){ continue;}
+            sourceFile.copyTo(destinationPath);
+        }
+    }
 }
+

@@ -55,5 +55,10 @@ public class UF_DirectoryController {
         return dirService.scanPath(volume, path);
     }
     
-
+    @GetMapping("copy/{sourceVolume}/{destVolume}")
+    public void copyVolumeContent(@PathVariable String sourceVolume, @PathVariable String destVolume) {
+        dirService.copy(sourceVolume, destVolume, "");
+        return;
+    }
+    
 }

@@ -14,4 +14,7 @@ public interface UF_DirectoryRepository extends JpaRepository<UF_Directory, Long
 
     @Query("SELECT s FROM UF_Content s WHERE s.volume = :volume")
     List<UF_Content> findByVolume(@Param("volume") String volume);
+
+    @Query("SELECT s FROM UF_Content s WHERE s.volume = :volume AND s.relativePath = :relPath")
+    UF_Directory getRootDir(@Param("volume") String volume, @Param("relPath") String relativePath);
 }

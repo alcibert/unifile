@@ -1,5 +1,13 @@
 package de.vfh.unifile.uf_file;
 
+import java.io.File;
+import java.io.IOException;
+// import org.apache.commons.io.FileUtils;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import static java.nio.file.StandardCopyOption.*;
+import static java.nio.file.LinkOption.*;
+
 import de.vfh.unifile.uf_content.UF_Content;
 import jakarta.persistence.Entity;
 
@@ -27,5 +35,20 @@ public class UF_File extends UF_Content{
     @Override
     public String toString() {
         return "UF_File [hashValue=" + this.hashValue + "]" + super.toString();
+    }
+
+    public void copyTo(String destinationPath){
+        System.out.println("Trying to copy");
+        try {
+            Path bytes = Files.copy(
+                new File(this.absolutePath).toPath(),
+                new File(destinationPath).toPath(),
+                REPLACE_EXISTING, COPY_ATTRIBUTES, NOFOLLOW_LINKS
+            );
+        } catch (IOException e){
+            System.out.println("Copy Failed, Stack Trace");
+            e.printStackTrace();
+            System.out.println("Copy Failed, End of Stack Trace");
+        }
     }
 }
