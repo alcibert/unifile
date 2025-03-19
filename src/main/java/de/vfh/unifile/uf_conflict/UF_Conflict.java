@@ -1,5 +1,7 @@
 package de.vfh.unifile.uf_conflict;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.vfh.unifile.primitives.MergeStrategy;
 import de.vfh.unifile.uf_file.UF_File;
 import jakarta.persistence.Entity;
@@ -43,16 +45,18 @@ public class UF_Conflict {
         return merge;
     }
 
-    public void setMerge(MergeStrategy merge) {
+    public UF_Conflict setMerge(MergeStrategy merge) {
         this.merge = merge;
+        return this;
     }
 
     public UF_File getFileA() {
         return fileA;
     }
 
-    public void setFileA(UF_File fileA) {
+    public UF_Conflict setFileA(UF_File fileA) {
         this.fileA = fileA;
+        return this;
     }
 
     public UF_File getFileB() {
@@ -61,6 +65,10 @@ public class UF_Conflict {
 
     public void setFileB(UF_File fileB) {
         this.fileB = fileB;
+    }
+
+    public Long getId() {
+        return id;
     }
 
 }

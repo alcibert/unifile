@@ -2,14 +2,21 @@ package de.vfh.unifile.uf_conflict;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import de.vfh.unifile.primitives.MergeStrategy;
+import de.vfh.unifile.uf_conflict.UF_ConflictService;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 
 @RestController
@@ -32,6 +39,13 @@ public class UF_ConflictController {
         // ToDo: Wenn Liste nicht leer, dann erst alle löschen und dann neu anlegen
         this.conflictService.analyzeConflicts();
         return this.conflictService.getAllConflicts();
+    }
+
+    @PostMapping("{conflictId}/setMergeStrategy")
+    public MergeStrategy setMergeStrategy(@PathVariable Long conflictId, @RequestBody MergeStrategy mergeStrategy) {
+        this.conflictService.setMerge(conflictId, mergeStrategy);
+        UF_Conflict conf = this.conflictService.getConflict(conflictId);
+        return conf.getMerge();
     }
     
 }
