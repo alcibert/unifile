@@ -95,10 +95,11 @@ public class UF_DirectoryService {
     private UF_Directory scanContent(String path, Boolean fullDepthScan, String volume){
         List<UF_Content> existing = this.repository.findByVolume(volume);
         for(UF_Content found : existing){
-            this.contentRepository.delete(found);
             this.conflictRepository.deleteAll();
             this.conflictRepository.flush();
-            this.repository.flush();
+            entityManager.clear();
+            this.contentRepository.delete(found);
+            this.contentRepository.flush();
             entityManager.clear();
         }
         File origin = new File(path);
