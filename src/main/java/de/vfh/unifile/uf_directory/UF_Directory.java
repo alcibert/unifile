@@ -9,6 +9,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import de.vfh.unifile.uf_content.UF_Content;
 import de.vfh.unifile.uf_file.UF_File;
 import jakarta.persistence.CascadeType;
@@ -25,19 +28,8 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "UF_Directory")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class UF_Directory extends UF_Content implements IUF_Direcotry{
-    @Id
-    @SequenceGenerator(
-        name = "uf_directory_sequence",
-        sequenceName = "uf_directory_sequence",
-        allocationSize = 1
-    )
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "uf_directory_sequence"
-    )
-    protected Long id;
-
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UF_Content> content = new ArrayList<UF_Content>();
 

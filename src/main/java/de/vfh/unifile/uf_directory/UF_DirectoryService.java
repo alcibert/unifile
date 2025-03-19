@@ -13,6 +13,7 @@ import de.vfh.unifile.uf_conflict.UF_ConflictRepository;
 import de.vfh.unifile.uf_content.UF_Content;
 import de.vfh.unifile.uf_file.UF_File;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import de.vfh.unifile.uf_content.UF_ContentRepository;
 
 /***
@@ -93,12 +94,12 @@ public class UF_DirectoryService {
      * @return UF_Directory Objects des gescannten Ordners
      */
     private UF_Directory scanContent(String path, Boolean fullDepthScan, String volume){
-        List<UF_Content> existing = this.repository.findByVolume(volume);
-        for(UF_Content found : existing){
+        UF_Directory root = this.repository.getRootDir(volume, "");
+        if(root != null){
             this.conflictRepository.deleteAll();
             this.conflictRepository.flush();
-            entityManager.clear();
-            this.contentRepository.delete(found);
+            this.repository.delete(root);
+            this.repository.flush();
             this.contentRepository.flush();
             entityManager.clear();
         }
@@ -115,7 +116,9 @@ public class UF_DirectoryService {
         newDir.setRelativePath("");
         newDir.setDirectory(origin.isDirectory());
         newDir.scanContents(fullDepthScan);
-        repository.save(newDir);
+        if(fullDepthScan){
+            repository.save(newDir);
+        }
         return newDir;
     }
     

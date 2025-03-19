@@ -1,5 +1,8 @@
 package de.vfh.unifile.uf_conflict;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import de.vfh.unifile.primitives.MergeStrategy;
 import de.vfh.unifile.uf_file.UF_File;
 import jakarta.persistence.Entity;

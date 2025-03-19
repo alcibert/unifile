@@ -1,5 +1,8 @@
 package de.vfh.unifile.uf_content;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import de.vfh.unifile.uf_directory.UF_Directory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -5,6 +5,10 @@ import java.io.IOException;
 // import org.apache.commons.io.FileUtils;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import static java.nio.file.StandardCopyOption.*;
 import static java.nio.file.LinkOption.*;
 
@@ -12,6 +16,7 @@ import de.vfh.unifile.uf_content.UF_Content;
 import jakarta.persistence.Entity;
 
 @Entity
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class UF_File extends UF_Content implements IUF_File{
 
     private String hashValue;
