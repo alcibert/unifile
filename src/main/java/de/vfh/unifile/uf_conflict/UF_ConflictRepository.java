@@ -7,6 +7,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface UF_ConflictRepository extends JpaRepository<UF_Conflict, Long> {
 
+    /**
+     * Vergleicht in der Datenbank die gefundenen Files miteinander und liefert nur die IDs der Files zurück, die miteinander im Konflikt stehen.
+     * Dabei werden nur Files zurückgeliert, die denselben Namen und relativen Pfad haben.
+     * Dazu muss allerdings auch der Hashwert der Datei anders sein.
+     * Dateien die also 100% gleich sind, werden nicht als Konflikt angesehen
+     * @return Liste von Data-Transfer-Objekten zur Erstellung richtiger Konflikte
+     */
     @Query(value = """
         SELECT new de.vfh.unifile.uf_conflict.UF_ConflictDTO(a.id, b.id)
         FROM 
@@ -25,6 +32,11 @@ public interface UF_ConflictRepository extends JpaRepository<UF_Conflict, Long> 
         """)
     List<UF_ConflictDTO> analyzeConflictFiles();
 
+    /**
+     * Ersetzt die findAll Funktion. Da die Daten der anscheinend Files erst Serialisiert/Initialisiert werden müssen.
+     * Um das zu umgehen werden die File Daten hier direkt mit der Abfrage mitgeladen.
+     * @return Liste der Konflikfiles
+     */
     @Query(value = """
         SELECT c FROM UF_Conflict c 
         JOIN FETCH c.fileA 
@@ -32,6 +44,11 @@ public interface UF_ConflictRepository extends JpaRepository<UF_Conflict, Long> 
        """)
     List<UF_Conflict> findAllWithFiles();
 
+    /**
+     * Sucht einen Konflikt, der eine FileID enthält
+     * @param fileID FileID zu der ein Konflikt gesucht wird
+     * @return Das gefundene UF_Conflict Objekt
+     */
     @Query(value = "SELECT * FROM UF_CONFLICT WHERE filea_id = :fileID OR fileb_id = :fileID", nativeQuery = true)
     UF_Conflict findByFileId(@Param("fileID") Long fileID);
 }

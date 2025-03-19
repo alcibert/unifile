@@ -20,6 +20,11 @@ public class UF_ConflictService {
     private final UF_ConflictRepository repository;
     private final UF_ContentRepository contentRepository;
     
+    /**
+     * Dependencyinjection des Datenbankinterfaces der Konflikte und der Contentobjekte
+     * @param repository
+     * @param contentRepository
+     */
     @Autowired
     public UF_ConflictService(UF_ConflictRepository repository, UF_ContentRepository contentRepository) {
         this.repository = repository;
@@ -28,7 +33,11 @@ public class UF_ConflictService {
 
     @Autowired
     private EntityManager entityManager;
-    
+
+    /**
+     * Listet alle Konflikte aus der Datenbank aus
+     * @return
+     */
     public List<UF_Conflict> getAllConflicts(){
         List<UF_Conflict> found = this.repository.findAllWithFiles();
         for (UF_Conflict conflict : found) {
@@ -38,6 +47,9 @@ public class UF_ConflictService {
         return found;
     }
 
+    /**
+     * Analysiert die gescanten Files nach Konflikten
+     */
     public void analyzeConflicts(){
         this.repository.deleteAll();
         this.repository.flush();
@@ -58,11 +70,21 @@ public class UF_ConflictService {
         System.out.println("\n \n KEINE KONFLIKTE \n \n");
     }
 
+    /**
+     * Gibt einen Konflikt mit einer ID zurück
+     * @param conflictId Die ID des gesuchten Konflikts
+     * @return Der gesuchte Konflikt
+     */
     public UF_Conflict getConflict(Long conflictId){
         UF_Conflict conf = this.repository.findById(conflictId).orElse(null);
         return conf;
     }
 
+    /**
+     * Setzt die MergeStrategy eines Konflikts
+     * @param conflictId Die ID des betroffenen Konflikts
+     * @param mergeStrategy Die neue Mergestrategy des Konflikts
+     */
     public void setMerge(Long conflictId, MergeStrategy mergeStrategy){
         UF_Conflict conf = this.repository.getReferenceById(conflictId);
         conf.setMerge(mergeStrategy);

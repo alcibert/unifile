@@ -12,6 +12,7 @@ import de.vfh.unifile.uf_conflict.UF_Conflict;
 import de.vfh.unifile.uf_conflict.UF_ConflictRepository;
 import de.vfh.unifile.uf_content.UF_Content;
 import de.vfh.unifile.uf_file.UF_File;
+import jakarta.persistence.EntityManager;
 import de.vfh.unifile.uf_content.UF_ContentRepository;
 
 /***
@@ -25,6 +26,12 @@ public class UF_DirectoryService {
     private final UF_ContentRepository contentRepository;
     private final UF_ConflictRepository conflictRepository;
     
+    /**
+     * Dependencyinjection der notwendigen Datenbankinterfaces
+     * @param repository Directory Repository
+     * @param contentRepository Content Repository
+     * @param conflictRepository Conflict Repository
+     */
     @Autowired
     public UF_DirectoryService(UF_DirectoryRepository repository, UF_ContentRepository contentRepository, UF_ConflictRepository conflictRepository) {
         this.repository = repository;
@@ -32,10 +39,23 @@ public class UF_DirectoryService {
         this.conflictRepository = conflictRepository;
     }
 
+    @Autowired
+    private EntityManager entityManager;
+
+    /**
+     * Gibt alle gefundenen Ordner zurück
+     * @return Liste aller gefudnenen Ordner als UF_Directory Objekt.
+     */
     public List<UF_Directory> getDirectorys(){
         return this.repository.findAll();
     }
 
+    /**
+     * Gibt nur einen Ordner zurück, der sich am angegebenen Pfad befindet.
+     * Wenn als Pfad nur "." angegeben ist, liefert diese Funktion statt dem Installationspfad, alle verfügbaren Datenträger aus.
+     * @param cwd Pfad, dessen Inhalt angezeigt werden soll
+     * @return UF_Content Objekt des angeforderten Pfades
+     */
     public UF_Content explore(String cwd){
         if(cwd.equals(".")){
             return listConnectedDrives();
@@ -43,18 +63,43 @@ public class UF_DirectoryService {
         return scanContent(cwd, false);
     }
 
+    /**
+     * Scannt vorhandene Pfade rekursiv und gibt den Inhalt als Ordner Objekt zurück
+     * @param volume Volumenbezeichner
+     * @param path Pfad der gescannt werden soll
+     * @return UF_Directory Objekt des gescannten Ordners
+     * @throws IOException
+     */
     public UF_Directory scanPath(String volume, String path) throws IOException{
         return scanContent(path,true, volume);
     }
 
+    /**
+     * Überladung von scanContent.
+     * Leitet weiter an scanContent(String, Boolean, String)
+     * @param path Pfad, der gescannt werden soll
+     * @param fullDepthScan Boolean ob rekursiv der gesamte Ordnerinhalt gescannt werden soll oder nur die erste Ebene.
+     * @return UF_Directory Objekt des gescannten Ordners
+     */
     private UF_Directory scanContent(String path, Boolean fullDepthScan){
         return scanContent(path, fullDepthScan, "none");
     }
 
+    /**
+     * Scannt einen Ordner auf dem Filesystem und legt mit dem gefundenen Inhalt die UF_File und UF_Directory Objekte an.
+     * @param path Pfad der gescannt werden soll
+     * @param fullDepthScan Boolean ob rekursiv alles gescannt werden soll oder nur die erste Ebene
+     * @param volume Volumenbezeichners des gescannten Pfades
+     * @return UF_Directory Objects des gescannten Ordners
+     */
     private UF_Directory scanContent(String path, Boolean fullDepthScan, String volume){
         List<UF_Content> existing = this.repository.findByVolume(volume);
         for(UF_Content found : existing){
             this.contentRepository.delete(found);
+            this.conflictRepository.deleteAll();
+            this.conflictRepository.flush();
+            this.repository.flush();
+            entityManager.clear();
         }
         File origin = new File(path);
         UF_Directory newDir = new UF_Directory(
@@ -73,6 +118,10 @@ public class UF_DirectoryService {
         return newDir;
     }
     
+    /**
+     * Fragt im Host-System die angeschlossenen Laufwerke ab.
+     * @return UF_Directory Objekt mit allen verfügbaren Laufwerken als Content.
+     */
     private UF_Directory listConnectedDrives(){
         File[] paths;
         paths = File.listRoots();
@@ -87,10 +136,22 @@ public class UF_DirectoryService {
         return newDir;
     }
 
+    /**
+     * Gibt alle gefundenen Files aus einem Volumen zurück
+     * @param volume Volumenbezeichner
+     * @return Liste von UF_Content Objekten
+     */
     public List<UF_Content> getAllFiles(String volume){
         return this.repository.findByVolume(volume);
     }
 
+    /**
+     * Kopiert die Files von einem Ort an den anderen. Dabei werden die Präferenzen der Konfliktfiles beachtet.
+     * Die Funktion ist Rekursiv.
+     * @param sourceVolume Quellvolumen
+     * @param destVolume Zielvolumen
+     * @param sourceRelPath Relativer Pfad der Quelle. Bei initialem Aufruf: "".
+     */
     public void copy(String sourceVolume, String destVolume, String sourceRelPath){
         UF_Directory source = this.repository.getRootDir(sourceVolume, sourceRelPath);
         UF_Directory destination = this.repository.getRootDir(destVolume, "");

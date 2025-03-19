@@ -25,7 +25,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "UF_Directory")
-public class UF_Directory extends UF_Content{
+public class UF_Directory extends UF_Content implements IUF_Direcotry{
     @Id
     @SequenceGenerator(
         name = "uf_directory_sequence",
@@ -60,7 +60,6 @@ public class UF_Directory extends UF_Content{
         if (!sameSuper){return false;}
         if (!(other instanceof UF_Directory)) {return false;}
         // ToDo: alle Files durchlaufen und auf gleichheit überprüfen
-        
         return true;
     }
 
@@ -81,7 +80,6 @@ public class UF_Directory extends UF_Content{
                     child.getAbsolutePath()
                 );
                 newDir.setVolume(this.volume);
-                // newDir.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, this.getName()));
                 newDir.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, newDir.name));
                 newDir.setDirectory(true);
                 newDir.setParent(this);
@@ -111,7 +109,6 @@ public class UF_Directory extends UF_Content{
                 this.content.add(newFile);
             }
         }
-        // System.out.println(this.content);
     }
 
     public List<UF_Content> getContent() {

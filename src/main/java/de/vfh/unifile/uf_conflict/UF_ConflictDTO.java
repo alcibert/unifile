@@ -1,5 +1,9 @@
 package de.vfh.unifile.uf_conflict;
 
+/**
+ * Hilfsklasse zum Erstellen richtiger Konflikte.
+ * Diese Klasse wird nur benutzt um aus einer eignen Datenbankquery richtige Konflikte zu erstellen.
+ */
 public class UF_ConflictDTO{
     private Long fileAId;
     private Long fileBId;

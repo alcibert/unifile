@@ -12,7 +12,7 @@ import de.vfh.unifile.uf_content.UF_Content;
 import jakarta.persistence.Entity;
 
 @Entity
-public class UF_File extends UF_Content{
+public class UF_File extends UF_Content implements IUF_File{
 
     private String hashValue;
 

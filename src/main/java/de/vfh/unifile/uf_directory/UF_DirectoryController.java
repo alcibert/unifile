@@ -14,9 +14,8 @@ import de.vfh.unifile.uf_content.UF_Content;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-/***
- * Hier sollen nur die API Endpoints aufgelistet sein.
- * Alle Aufrufe gehen an den Service Layer
+/**
+ * REST-Controller Klasse zur Steuerung der Ordner.
  */
 @CrossOrigin(origins = "http://localhost:5050", maxAge = 3600)
 @RestController
@@ -25,36 +24,67 @@ public class UF_DirectoryController {
     
     private final UF_DirectoryService dirService;
 
+    /**
+     * Dependecy Injection der Serviceklasse
+     * @param dirService die Serviceklasse
+     */
     @Autowired
     public UF_DirectoryController(UF_DirectoryService dirService){
         this.dirService = dirService;
     }
     
+    /**
+     * Listet alle in der Datenbank gespeicherten Directorys auf.
+     * @return Liste von UF_Directory Files
+     */
     @GetMapping
     public List<UF_Directory> getDirectorys(){
         return dirService.getDirectorys();
     }
 
+    /**
+     * Das ist eine Test Klasse zum Kennenlernen von Spring.
+     * Sie wird nicht benötigt, sondern war lediglich zum Verstehen von Mappings und paths da.
+     * An dieser Test Klasse wurde auch das Prinzip von Unit-Tests erprobt.
+     * @return String mit Inhalt "Super Sache"
+     */
     @RequestMapping(path = "test")
     @GetMapping
     public String doTest(){
         return "Super Sache";
     }
 
-    //ToDo: Die Endpoints in Postman hinterlegen
+    /**
+     * Listet alle in einem Ordner enthaltenen Inhalte auf.
+     * Nicht rekursiv, sondern lediglich der aufgerufene Ordner wird zurückgeliefert.
+     * Wird benötigt, damit der File-Explorer die Dateiinhalte anzeigen kann.
+     * @param cwd Pfad der abgefragt werden soll.
+     * @return UF_Content Abbildung eines Ordners.
+     */
     @GetMapping
     @RequestMapping(path = "explore")
     public UF_Content explore(@RequestParam("cwd") String cwd) {
         return dirService.explore(cwd);
     }
 
-    //ToDo: Endpoint in Postman hinterlegen
+    /**
+     * Scannt rekursiv den gesamten Inhalt eines angegebenen Ordners.
+     * @param volume Volume dem der Inhalt zugewiesen werden soll. Meistens entweder A oder B
+     * @param path Pfad, der gescannt werden soll
+     * @return UF_Content Abbildung des gescannten Ordners
+     * @throws IOException
+     */
     @GetMapping
     @RequestMapping(path = "scan/{volume}")
     public UF_Directory scan(@PathVariable String volume, @RequestParam("path") String path) throws IOException{
         return dirService.scanPath(volume, path);
     }
     
+    /**
+     * Kopiert einen Ordnerinhalt in den anderen. Dabei werden die Präferenzen von Konfliktdateien beachtet.
+     * @param sourceVolume Verweis auf das Quellvolumen
+     * @param destVolume Verweis auf das Zielvolumen
+     */
     @GetMapping("copy/{sourceVolume}/{destVolume}")
     public void copyVolumeContent(@PathVariable String sourceVolume, @PathVariable String destVolume) {
         dirService.copy(sourceVolume, destVolume, "");

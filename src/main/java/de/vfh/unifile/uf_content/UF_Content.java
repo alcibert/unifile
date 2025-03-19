@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "UF_Content")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class UF_Content {
+public class UF_Content implements IUF_Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
@@ -37,10 +37,8 @@ public class UF_Content {
         this.lastModified = lastModified;
         this.absolutePath = absolutePath;
     }
-
-    public UF_Content(
-
-    ){}
+    
+    public UF_Content(){}
 
     public UF_Content(String name, String absolutePath) {
         this.name = name;

@@ -26,16 +26,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UF_ConflictController {
     private final UF_ConflictService conflictService;
 
+    /**
+     * Dependecyinjection der Serviceklasse
+     * @param conflictService
+     */
     @Autowired
     public UF_ConflictController(UF_ConflictService conflictService){
         this.conflictService = conflictService;
     }
 
+    /**
+     * Gibt alle gefundenen Konflikte zurück
+     * @return Liste der gefundenen Konflikte
+     */
     @GetMapping()
     public List<UF_Conflict> getAllConflicts() {
         return this.conflictService.getAllConflicts();
     }
 
+    /**
+     * Analysiert die gescannten Dateien auf Konflikte
+     * @return Liste der gefundenen Konflikte
+     */
     @GetMapping("analyze")
     public List<UF_Conflict> analyzeConflicts() {
         // ToDo: Wenn Liste nicht leer, dann erst alle löschen und dann neu anlegen
@@ -43,6 +55,12 @@ public class UF_ConflictController {
         return this.conflictService.getAllConflicts();
     }
 
+    /**
+     * Setzt bei einem Konflikt die Mergestrategy
+     * @param conflictId Konfliktid die aktualisiert werden soll
+     * @param mergeStrategy Der neue Wert der Mergestrategy
+     * @return Gibt bei Erfolg die neu gesetzte Merge Strategy zurück
+     */
     @PostMapping("{conflictId}/setMergeStrategy")
     public MergeStrategy setMergeStrategy(@PathVariable Long conflictId, @RequestBody MergeStrategy mergeStrategy) {
         this.conflictService.setMerge(conflictId, mergeStrategy);

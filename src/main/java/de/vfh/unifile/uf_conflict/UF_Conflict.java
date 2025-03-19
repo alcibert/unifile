@@ -1,7 +1,5 @@
 package de.vfh.unifile.uf_conflict;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import de.vfh.unifile.primitives.MergeStrategy;
 import de.vfh.unifile.uf_file.UF_File;
 import jakarta.persistence.Entity;
@@ -14,7 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class UF_Conflict {
+public class UF_Conflict implements IUF_Conflict{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;

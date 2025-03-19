@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class UF_FileController {
     private final UF_FileService fileService;
 
+    /**
+     * Dependencyinjection der File Service Klasse
+     * @param fileService
+     */
     @Autowired
     public UF_FileController(UF_FileService fileService){
         this.fileService = fileService;
