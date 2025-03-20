@@ -182,7 +182,6 @@ public class UF_DirectoryService {
             if (conflict.getMerge() == MergeStrategy.KEEP_A){}
             if (conflict.getMerge() == MergeStrategy.KEEP_B){
                 sourceFile = conflict.getFileB();
-                destinationPath = source.getAbsolutePath() + sourceFile.getRelativePath() + '/' + sourceFile.getName();
             }
             if (conflict.getMerge() == MergeStrategy.NOT_SET){ continue;}
             sourceFile.copyTo(destinationPath);
