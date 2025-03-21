@@ -90,5 +90,18 @@ public class UF_DirectoryController {
         dirService.copy(sourceVolume, destVolume, "");
         return;
     }
+
+    @GetMapping("openHostSystem")
+    public void getMethodName(@RequestParam String path) {
+        if (!System.getProperty("os.name").startsWith("Windows")){
+            return;
+        }
+        try {
+            Runtime.getRuntime().exec("explorer.exe " + path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     
 }

@@ -114,7 +114,7 @@ public class UF_Directory extends UF_Content implements IUF_Direcotry{
         this.content = content;
     }
 
-    
+    //ToDo: In File schreiben - nicht in Directory
     private static String getFileHash(File file) throws NoSuchAlgorithmException, IOException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         try (FileInputStream fis = new FileInputStream(file)) {
