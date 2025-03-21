@@ -29,7 +29,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "UF_Directory")
 @OnDelete(action = OnDeleteAction.CASCADE)
-public class UF_Directory extends UF_Content implements IUF_Direcotry{
+public class UF_Directory extends UF_Content implements IUF_Directory{
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UF_Content> content = new ArrayList<UF_Content>();
 

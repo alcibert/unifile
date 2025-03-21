@@ -5,7 +5,7 @@ import java.util.List;
 import de.vfh.unifile.uf_content.IUF_Content;
 import de.vfh.unifile.uf_content.UF_Content;
 
-public interface IUF_Direcotry extends IUF_Content{
+public interface IUF_Directory extends IUF_Content{
     
     void scanContents();
 
