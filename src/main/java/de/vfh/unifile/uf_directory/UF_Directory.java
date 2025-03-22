@@ -33,12 +33,34 @@ public class UF_Directory extends UF_Content implements IUF_Directory{
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UF_Content> content = new ArrayList<UF_Content>();
 
-    public UF_Directory(){}
-    public UF_Directory(String name, String relativePath){
-        super(name, relativePath);
+    public UF_Directory(){
+        super();
     }
-    public UF_Directory(String name, Long size, Long lastModified, String absolutePath){
-        super(name, size, lastModified, absolutePath);
+
+    private UF_Directory(UF_DirectoryBuilder builder) {
+        super(builder);
+    }
+    // public UF_Directory(String name, String relativePath){
+    //     super(name, relativePath);
+    // }
+    // public UF_Directory(String name, Long size, Long lastModified, String absolutePath){
+    //     super(name, size, lastModified, absolutePath);
+    // }
+
+    /***
+     * Buidler Klasse für UF_DirectoryBuilder
+     */
+    public static class UF_DirectoryBuilder extends UF_Content.UF_ContentBuilder<UF_DirectoryBuilder> {
+
+        @Override
+        protected UF_DirectoryBuilder self(){
+            return this;
+        }
+
+        @Override
+        public UF_Directory build() {
+            return new UF_Directory(this);
+        }
     }
 
     @Override
@@ -51,7 +73,6 @@ public class UF_Directory extends UF_Content implements IUF_Directory{
         boolean sameSuper = super.equals(other);
         if (!sameSuper){return false;}
         if (!(other instanceof UF_Directory)) {return false;}
-        // ToDo: alle Files durchlaufen und auf gleichheit überprüfen
         return true;
     }
 
@@ -65,12 +86,12 @@ public class UF_Directory extends UF_Content implements IUF_Directory{
         
         for(File child: children){
             if(child.isDirectory()){
-                UF_Directory newDir = new UF_Directory(
-                    child.getName(),
-                    child.length(),
-                    child.lastModified(),
-                    child.getAbsolutePath()
-                );
+                UF_Directory newDir = new UF_Directory.UF_DirectoryBuilder()
+                    .setName(child.getName())
+                    .setAbsolutePath(child.getAbsolutePath())
+                    .setSize(child.length())
+                    .setLastModified(child.lastModified())
+                    .build();
                 newDir.setVolume(this.volume);
                 newDir.setRelativePath(MessageFormat.format("{0}\\{1}", this.relativePath, newDir.name));
                 newDir.setDirectory(true);
@@ -87,13 +108,13 @@ public class UF_Directory extends UF_Content implements IUF_Directory{
                 } catch (Exception e) {
                     System.out.println("Could not generate Hash for File " + child.getName());
                 }
-                UF_File newFile = new UF_File(
-                    child.getName(),
-                    child.length(),
-                    child.lastModified(),
-                    child.getAbsolutePath(),
-                    hashString
-                );
+                UF_File newFile = new UF_File.UF_FileBuilder()
+                .setName(child.getName())
+                .setSize(child.length())
+                .setLastModified(lastModified)
+                .setAbsolutePath(child.getAbsolutePath())
+                .setHashValue(hashString)
+                .build();
                 newFile.setVolume(this.volume);
                 newFile.setRelativePath(MessageFormat.format("\\{0}", this.relativePath));
                 newFile.setDirectory(false);

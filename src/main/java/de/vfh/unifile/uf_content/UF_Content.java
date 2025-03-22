@@ -34,19 +34,57 @@ public class UF_Content implements IUF_Content {
     @JoinColumn(name = "directory_id")
     private UF_Directory parent;
 
-    public UF_Content(String name, Long size, Long lastModified, String absolutePath) {
-        this.name = name;
-        this.size = size;
-        this.lastModified = lastModified;
-        this.absolutePath = absolutePath;
-    }
+    // public UF_Content(String name, Long size, Long lastModified, String absolutePath) {
+    //     this.name = name;
+    //     this.size = size;
+    //     this.lastModified = lastModified;
+    //     this.absolutePath = absolutePath;
+    // }
     
     public UF_Content(){}
 
-    public UF_Content(String name, String absolutePath) {
-        this.name = name;
-        this.absolutePath = absolutePath;
-        // The rest has to be set through the database or after scanning the file system for the file
+    // public UF_Content(String name, String absolutePath) {
+    //     this.name = name;
+    //     this.absolutePath = absolutePath;
+    //     // The rest has to be set through the database or after scanning the file system for the file
+    // }
+
+    protected UF_Content(UF_ContentBuilder <?> builder) {
+        this.name = builder.name;
+        this.size = builder.size;
+        this.lastModified = builder.lastModified;
+        this.absolutePath = builder.absolutePath;
+    }
+
+    public static abstract class UF_ContentBuilder <T extends UF_ContentBuilder<T>>{
+        private String name;
+        private Long size = 0L;
+        private Long lastModified = 0L;
+        private String absolutePath;
+
+        public T setName(String name) {
+            this.name = name;
+            return self();
+        }
+
+        public T setSize(Long size) {
+            this.size = size;
+            return self();
+        }
+
+        public T setLastModified(Long lastModified) {
+            this.lastModified = lastModified;
+            return self();
+        }
+
+        public T setAbsolutePath(String absolutePath) {
+            this.absolutePath = absolutePath;
+            return self();
+        }
+        protected abstract T self();
+
+        public abstract UF_Content build();
+    
     }
 
     public Long getId() {
