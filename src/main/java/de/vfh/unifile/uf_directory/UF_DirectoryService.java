@@ -138,7 +138,7 @@ public class UF_DirectoryService {
             UF_Directory newDrive = new UF_Directory.UF_DirectoryBuilder()
                 .setName(path.toString())
                 .build();
-            // newDrive.setAbsolutePath("");
+            newDrive.setAbsolutePath(path.toString());
             newDrive.setDirectory(true);
             newDrive.setRelativePath(path.toString());
             newDir.addToContent(newDrive);
