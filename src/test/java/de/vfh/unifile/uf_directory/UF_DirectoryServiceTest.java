@@ -116,4 +116,9 @@ class UF_DirectoryServiceTest {
             return null;
         }
     }
+
+    @Test
+    void testGetDirectorys() {
+        
+    }
 }
