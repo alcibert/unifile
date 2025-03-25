@@ -104,12 +104,12 @@ public class UF_DirectoryService {
             entityManager.clear();
         }
         File origin = new File(path);
-        UF_Directory newDir = new UF_Directory(
-            origin.getName(),
-            0L,
-            origin.lastModified(),
-            origin.getAbsolutePath()
-        );
+        UF_Directory newDir = new UF_Directory.UF_DirectoryBuilder()
+            .setName(origin.getName())
+            .setAbsolutePath(origin.getAbsolutePath())
+            .setSize(0L)
+            .setLastModified(origin.lastModified())
+            .build();
         if(!volume.equals("none")){
             newDir.setVolume(volume.toLowerCase());
         }
@@ -129,12 +129,18 @@ public class UF_DirectoryService {
     private UF_Directory listConnectedDrives(){
         File[] paths;
         paths = File.listRoots();
-        UF_Directory newDir = new UF_Directory("Available Drives",".");
+        UF_Directory newDir = new UF_Directory.UF_DirectoryBuilder()
+            .setName("Available Drives")
+            .build();
         newDir.setAbsolutePath("");
+        newDir.setRelativePath(".");
         for(File path:paths){
-            UF_Directory newDrive = new UF_Directory(path.toString(), path.toString());
-            // newDrive.setAbsolutePath("");
+            UF_Directory newDrive = new UF_Directory.UF_DirectoryBuilder()
+                .setName(path.toString())
+                .build();
+            newDrive.setAbsolutePath(path.toString());
             newDrive.setDirectory(true);
+            newDrive.setRelativePath(path.toString());
             newDir.addToContent(newDrive);
         }
         return newDir;
