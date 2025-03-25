@@ -1,5 +1,8 @@
 package de.vfh.unifile.uf_conflict;
 
+import de.vfh.unifile.primitives.MergeStrategy;
+import de.vfh.unifile.uf_file.UF_File;
+
 /**
  * Hilfsklasse zum Erstellen richtiger Konflikte.
  * Diese Klasse wird nur benutzt um aus einer eignen Datenbankquery richtige Konflikte zu erstellen.
